@@ -1,11 +1,13 @@
-## Finding matrix inversion is an expensive computation. So if a matrix 
-## inversion is performed once, then it is stored in the cache and when
-## matrix inversion for the same matrix is called it is returned from 
+## If a matrix inversion is performed once, then it is stored in the cache 
+##and when matrix inversion for the same matrix is called it is returned from 
 ## the cache instead of computing again
 
-## creates a matrix object which can cache its inverse by returning a list
-## which gets the matrix value, sets the matrix value, gets the inverse 
-## and sets the inverse
+## creates a matrix object which can cache its inverse 
+## returns a list which contains functions to
+##      get the matrix value
+##      set the matrix value 
+##      get the inverse 
+##      set the inverse
 
 makeCacheMatrix <- function(x = matrix()) {
   inv <- NULL
@@ -25,15 +27,17 @@ makeCacheMatrix <- function(x = matrix()) {
 ## then inverse is calculated and stored in cache.
 
 cacheSolve <- function(x, ...) {
-  ## Return a matrix that is the inverse of 'x'
+  ## Store a matrix that is the inverse of 'x' if found in cache
   inv <- x$getInverse()
+  
   if(!is.null(inv)){
     message("getting cached data")
-    return(inv)
+    return(inv) # returns the inverse found in cache
   }
-  data <- x$get()
-  inv <- solve(data)
-  x$setInverse(inv)
-  return(inv)
+  #If inverse is not found in the cache, then
+  data <- x$get() #Get the data
+  inv <- solve(data) #Find the inverse using solve() function
+  x$setInverse(inv) #Set the inverse value of matrix in cache
+  return(inv) #return inverse of the matrix
 }
 
